@@ -1,18 +1,33 @@
-
+import uuid
 
 users = {
-    "julian": {
-        "username": "julian",
+    "julian@gmail.com": {
         "email": "julian@gmail.com",
         "id": 4,
         "password": "example",
-        "bio": "Some guy from the internet"
     },
-    "clarissa": {
-        "username": "clarissa",
+    "clarissa@icloud.com": {
         "email": "clarissa@icloud.com",
         "id": 1,
         "password": "sweetpotato22",
-        "bio": "Sweet potato is life"
     }
 }
+
+class DbLayer:
+    def __init__(self):
+        self.currentUsers = users
+
+    def get_users(self):
+        return self.currentUsers
+
+    def user_exists(self, email):
+        return email in self.currentUsers
+
+    def register(self, email, password):
+        account = {}
+        account["email"] = email
+        account["password"] = password
+        account["id"] = str(uuid.uuid1())
+        self.currentUsers[email] = account
+        print(self.currentUsers)
+
