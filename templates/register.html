@@ -2,9 +2,13 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
 		<title>Register</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	</head>
 	<body>
 		<div class="register">
@@ -13,7 +17,7 @@
 				<a href="{{ url_for('login') }}">Login</a>
 				<a href="{{ url_for('register') }}" class="active">Register</a>
 			</div>
-			<form action="{{ url_for('register') }}" method="post" autocomplete="off">
+			<form action="{{ url_for('register') }}" method="post" autocomplete="off" value="" id="register_form" >
             <!--
 				<label for="email">
 					<i class="fas fa-user"></i>
@@ -27,16 +31,29 @@
 				<label for="password">
 					<i class="fas fa-lock"></i>
 				</label>
-				<input type="password" name="password" placeholder="Password" id="password" required>
+				<input type="password" name="password" placeholder="Password" id="password" onChange="onChange()" required>
 
-				<label for="password-retype">
+				<label for="confirm_password">
 					<i class="fas fa-lock"></i>
 				</label>
-				<input type="password" name="password-retype" placeholder="Confirm Password" id="password-two" required>
+				<input type="password" name="confirm_password" placeholder="Confirm Password" id="confirm_password"onChange="onChange()"  required>
 
 				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Register">
 			</form>
 		</div>
 	</body>
+    <script  type="text/javascript">
+    function onChange() {
+        const password = document.querySelector('input[name="password"]');
+        const confirm1 = document.querySelector('input[name="confirm_password"]');
+        console.log(confirm1.value);
+        console.log(password.value);
+        if (confirm1.value === password.value) {
+            confirm1.setCustomValidity('');
+        } else {
+            confirm1.setCustomValidity('Passwords do not match');
+        }
+    }
+</script>
 </html>

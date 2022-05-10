@@ -33,12 +33,14 @@ def login():
         if not email in users:
             return render_template('index.html', msg='Login failed !')
         user = users[email]
+        if password != user['password']:
+            return render_template('index.html', msg='Login failed !')
 
         # fetch account and verify. 
         session['email'] = user["email"]
         session['loggedin'] = True
         session['id'] = user['id']
-        return 'Logged in successfully !'
+        return redirect(url_for('home'))
 
     return render_template('index.html', msg='')
 
@@ -53,6 +55,8 @@ def register():
         email = request.form['email']
         password = request.form['password']
         dblayer.register(email, password)
+        print("request.form = ", request.form)
+        msg = 'Successfully registered ! Please login to continue.'
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form!'
@@ -68,3 +72,21 @@ def logout():
    session.pop('email', None)
    # Redirect to login page
    return redirect(url_for('login'))
+
+@app.route('/login/home')
+def home():
+    # Check if user is logged in
+    if 'loggedin' in session:
+        return render_template('home.html', email=session['email'])
+    return render_template(url_for('login'))
+
+@app.route('/login/profile')
+def profile():
+    # Check if user is logged in
+    if 'loggedin' in session:
+        # We need all the account info for the user so we can display it on the profile page
+        user = dblayer.get_user(session['email'])
+        # Show the profile page with account info
+        return render_template('profile.html', user=user)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))

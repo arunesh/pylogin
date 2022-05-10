@@ -20,6 +20,12 @@ class DbLayer:
     def get_users(self):
         return self.currentUsers
 
+    def get_user(self, email):
+        if email in self.currentUsers:
+            return self.currentUsers[email]
+        else:
+            return None
+
     def user_exists(self, email):
         return email in self.currentUsers
 
