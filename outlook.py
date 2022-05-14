@@ -1,6 +1,8 @@
 import datetime as dt
 from O365 import Account, MSGraphProtocol, FileSystemTokenBackend
 
+import dateutil
+
 AZURE_CLIENT_ID='75d1c35d-7ab6-4668-ab3a-0dfe4a1f3ead'
 AZURE_CLIENT_SECRET='6T_8Q~AfaYwKIK9BGb98apVT1x-rjN2LQ-jnTb2N'
 CALLBACK_URL='http://localhost:5000/outlook_redirect'
@@ -86,17 +88,23 @@ def schedule_event(user_email, startTime, endTime, subject):
         # naive datetimes will automatically be converted to timezone aware datetime
         #  objects using the local timezone detected or the protocol provided timezone
 
-        new_event.start = dt.datetime.fromisoformat(startTime)
+        print(f'Using start time {startTime} and end time {endTime}')
+        #new_event.start = dt.datetime.fromisoformat(startTime)
+        new_event.start = dateutil.parser.isoparse(startTime)
+        new_event.start = dateutil.parser.isoparse(startTime)
+
         # new_event.start = dt.datetime(year=2022, month=5, day=14, hour=10, minute=0) 
         # so new_event.start becomes: datetime.datetime(2018, 9, 5, 19, 45, tzinfo=<DstTzInfo 'Europe/Paris' CEST+2:00:00 DST>)
 
         #new_event.recurrence.set_daily(1, end=dt.datetime(2022, month=5, day=17))
-        new_event.recurrence.set_daily(1, end=dt.datetime.fromisoformat(endTime))
+        #new_event.recurrence.set_daily(1, end=dt.datetime.fromisoformat(endTime))
+        new_event.recurrence.set_daily(1, start=dateutil.parser.isoparse(startTime), end=dateutil.parser.isoparse(endTime))
         new_event.remind_before_minutes = 45
 
         new_event.save()
         return True
-    except: 
+    except Exception as e: 
+        print(str(e))
         return False
 
 if __name__ == "__main__":
