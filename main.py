@@ -90,3 +90,20 @@ def profile():
         return render_template('profile.html', user=user)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+##### Outlook calendar work
+
+@app.route('/outlook/main')
+def outlook_main():
+    return render_template('outlook.html', message="Use this to schedule an event")
+
+# This is the redirect_uri that Microsoft Graph would call.
+@app.route('/outlook/redirect')
+def outlook_auth():
+    return render_template('outlook.html', message="Authorization successful")
+
+@app.route('/outlook/auth')
+def outlook_auth():
+    
+    return render_template('outlook.html', message="Authorization successful")
+
