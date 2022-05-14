@@ -62,7 +62,11 @@ def get_auth_url(user_email, callback=None):
 def auth_complete(user_email, url, callback=None):
     acc = get_auth(user_email)
     callback = callback or CALLBACK_URL
-    url_https = url.replace('http', 'https')
+    url_https = url
+    if url.contains('https'):
+        print('already https')
+    else:
+        url_https = url.replace('http', 'https')
     print("URL HTTPS =" + url_https)
     acc.authenticate_complete(scopes=COACH_SCOPES, token_url = url_https, redirect_uri=callback)
     return acc
