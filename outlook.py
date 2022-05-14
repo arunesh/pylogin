@@ -3,8 +3,8 @@ from O365 import Account, MSGraphProtocol, FileSystemTokenBackend
 
 AZURE_CLIENT_ID='75d1c35d-7ab6-4668-ab3a-0dfe4a1f3ead'
 AZURE_CLIENT_SECRET='6T_8Q~AfaYwKIK9BGb98apVT1x-rjN2LQ-jnTb2N'
-CALLBACK_URL='http://localhost:5000/outlook/redirect'
-CALLBACK_URL_HTTPS='https://localhost:5000/outlook/redirect'
+CALLBACK_URL='http://localhost:5000/outlook_redirect'
+CALLBACK_URL_HTTPS='https://localhost:5000/outlook_redirect'
 COACH_SCOPES=['basic', 'message_all', 'calendar_all']
 
 #credentials = ('my_client_id', 'my_client_secret')
@@ -52,16 +52,16 @@ def get_auth(user_email):
     outlook_account = BackendAccount(credentials, protocol=protocol, token_backend=token_backend)
     return outlook_account
 
-def get_auth_url(user_email):
+def get_auth_url(user_email, callback=None):
     user_email = user_email or "default"
-    callback = CALLBACK_URL
+    callback = callback or CALLBACK_URL
     acc = get_auth("default")
     url = acc.authenticate_geturl(scopes=COACH_SCOPES, redirect_uri=callback)
     return url
 
-def auth_complete(user_email, url):
+def auth_complete(user_email, url, callback=None):
     acc = get_auth(user_email)
-    callback = CALLBACK_URL
+    callback = callback or CALLBACK_URL
     url_https = url.replace('http', 'https')
     print("URL HTTPS =" + url_https)
     acc.authenticate_complete(scopes=COACH_SCOPES, token_url = url_https, redirect_uri=callback)

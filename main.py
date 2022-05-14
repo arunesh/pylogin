@@ -97,17 +97,11 @@ def profile():
 def outlook_main():
     return render_template('outlook.html', message="Use this to schedule an event")
 
-@app.route('/outlook_get_auth')
-def outlook_get_auth():
-    url = outlook.get_auth_url("default")
-    print("URL =" + url)
-    return redirect(url)
-
 # This is the redirect_uri that Microsoft Graph would call via the client browser.
-@app.route('/outlook/redirect')
+@app.route('/outlook_redirect')
 def outlook_redirect():
     print("Request URL: " + request.url)
-    acc = outlook.auth_complete("default", request.url)
+    acc = outlook.auth_complete("default", request.url, callback=url_for('outlook_redirect', _external=True))
     user = acc.get_current_user()
     email = user.user_principal_name
     full_name = user.full_name
@@ -115,7 +109,17 @@ def outlook_redirect():
     email = email or "default"
     full_name = full_name or "default"
 
-    return render_template('outlook_result.html', email=email, full_name=full_name, message="Authorization successful")
+    return render_template('outlook_auth_result.html', email=email, full_name=full_name,
+                result = "Authorization successful !",
+                message="Authorization process with Outlook was successful")
+
+@app.route('/outlook_get_auth')
+def outlook_get_auth():
+    print("URL = " + url_for('login') + ' ' + url_for('outlook_redirect', _external=True));
+    sys.stdout.flush()
+    url = outlook.get_auth_url("default", callback=url_for('outlook_redirect', _external=True))
+    print("URL =" + url)
+    return redirect(url)
 
 @app.route('/outlook_schedule', methods=['GET', 'POST'])
 def outlook_schedule():

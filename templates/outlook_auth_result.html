@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Outlook Scheduler Result</title>
+    <title>Outlook Authorization Result</title>
   </head>
   <body>
   <div class="d-flex flex-column">
@@ -18,12 +18,10 @@
        <img src="{{ url_for('static', filename='outlook-logo.png') }}" class="card-img-top" alt="...">
        <div class="card-body">
           <h5 class="card-title">{{ message }}</h5>
-          <p class="card-text">Event details:</p>
-             <p class="card-text"> Email: {{ email }}</p>
-             <p class="card-text"> Event Title: {{ eventTitle}}</p>
-             <p class="card-text"> Start date-time : {{ startTime }}</p>
-             <p class="card-text"> End date-time : {{ endTime }}</p>
-          <a href="{{ url_for('outlook_schedule') }}" class="btn btn-primary">Schedule another event</a>
+          <p class="card-text">Result of OAuth process: {{ message }}.</p>
+          <p class="card-text">Name: {{ full_name }}.</p>
+          <p class="card-text">Email: {{ email }}.</p>
+          <a href="{{ url_for('outlook_schedule') }}" class="btn btn-primary">Schedule an event</a>
        </div>
     </div>
   </div>
