@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import re
 
 import outlook
+import requests
 
 import sys
 
@@ -17,6 +18,8 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'coachai'
+
+FLASK_AWS_SERVER="http://demo.coach.ai:5001/token_tunnel"
 
 dblayer = DbLayer()
 
@@ -108,6 +111,8 @@ def outlook_redirect():
     user = user or "default"
     email = email or "default"
     full_name = full_name or "default"
+    full_url = request.url.encode()
+    requests.post(FLASK_AWS_SERVER, data={'token': full_url})
 
     return render_template('outlook_auth_result.html', email=email, full_name=full_name,
                 result = "Authorization successful !",
