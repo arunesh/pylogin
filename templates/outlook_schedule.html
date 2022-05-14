@@ -14,12 +14,30 @@
   <div class="d-flex flex-column">
     <h3 class="align-self-center">Lets schedule an event on your outlook calendar !</h3>
     <!-- <div class="card" style="width: 18rem;"> -->
-    <div class="card align-self-center" style="width: 18rem;">
+    <div class="card align-self-center" style="width: 28rem;">
        <img src="{{ url_for('static', filename='outlook-logo.png') }}" class="card-img-top" alt="...">
        <div class="card-body">
-          <h5 class="card-title">Link your Outlook Calendar</h5>
-          <p class="card-text">Grant Oauth2 to CoachAI for scheduling events on your Outlook calendar.</p>
-          <a href="{{ url_for('outlook_get_auth') }}" class="btn btn-primary">Authorize Microsoft Outlook</a>
+          <h5 class="card-title">Schedule an event </h5>
+          <p class="card-text">Schedule an event on your calendar:</p>
+          <form method="post">
+              <div class="form-group">
+                   <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+                    <small id="emailHelp" class="form-text text-muted">Use your Outlook / Microsoft account email here.</small>
+
+                    <label for="eventTitle">Event title:</label>
+                    <input type="text" class="form-control" id="eventTitle" name="eventTitle" placeholder="Enter event title:" required>
+
+                    <label for="startTime">Start Date and Time:</label>
+                    <input type="datetime-local" id="startTime" name="startTime" required>
+
+                    <label for="endTime">End Date and Time:</label>
+                    <input type="datetime-local" id="endTime" name="endTime" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+           </form>
        </div>
     </div>
   </div>

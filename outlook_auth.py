@@ -18,5 +18,18 @@ account = Account(credentials)
 if account.authenticate(scopes=['basic', 'message_all', 'calendar_all']):
    print('Authenticated!')
 
+user = account.get_current_user()
+
+print("User full name: " + user.full_name)
+print("\n")
+##print("User profile photo: " + user.get_profile_photo())
+#print("\n")
+print("User display name: " + user.display_name )
+print("\n")
+print("User given name: " +  user.given_name)
+print("\n")
+print("User surname: " + user.surname)
+print("\n")
+print("User principal name: " + user.user_principal_name)
 # 'basic' adds: 'offline_access' and 'https://graph.microsoft.com/User.Read'
 # 'message_all' adds: 'https://graph.microsoft.com/Mail.ReadWrite' and 'https://graph.microsoft.com/Mail.Send'

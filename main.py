@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-#from flask_mysqldb import MySQL
-#import MySQLdb.cursors
 import re
+
+import outlook
+
+import sys
 
 from dblayer import DbLayer 
 
@@ -14,10 +16,8 @@ app.secret_key = 'coachai'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'pythonlogin'
+app.config['MYSQL_DB'] = 'coachai'
 
-# Intialize MySQL
-# mysql = MySQL(app)
 dblayer = DbLayer()
 
 # http://localhost:5000/login/ - the following will be our login page, which will use both GET and POST requests
@@ -93,21 +93,52 @@ def profile():
 
 ##### Outlook calendar work
 
-@app.route('/outlook/main')
+@app.route('/outlook')
 def outlook_main():
     return render_template('outlook.html', message="Use this to schedule an event")
 
-@app.route('/outlook/get_auth')
+@app.route('/outlook_get_auth')
 def outlook_get_auth():
-    return render_template('outlook.html', message="Use this to schedule an event")
+    url = outlook.get_auth_url("default")
+    print("URL =" + url)
+    return redirect(url)
 
-# This is the redirect_uri that Microsoft Graph would call.
+# This is the redirect_uri that Microsoft Graph would call via the client browser.
 @app.route('/outlook/redirect')
-def outlook_auth():
-    return render_template('outlook.html', message="Authorization successful")
+def outlook_redirect():
+    print("Request URL: " + request.url)
+    acc = outlook.auth_complete("default", request.url)
+    user = acc.get_current_user()
+    email = user.user_principal_name
+    full_name = user.full_name
+    user = user or "default"
+    email = email or "default"
+    full_name = full_name or "default"
 
-@app.route('/outlook/auth')
-def outlook_auth():
-    
-    return render_template('outlook.html', message="Authorization successful")
+    return render_template('outlook_result.html', email=email, full_name=full_name, message="Authorization successful")
+
+@app.route('/outlook_schedule', methods=['GET', 'POST'])
+def outlook_schedule():
+    if request.method == 'POST':
+        req = request.form
+        print(str(req))
+        for key in req:
+            print('form key '+req[key])
+        email = req.get("email")
+        startTime = req.get("startTime")
+        endTime = req.get("endTime")
+        subject = req.get("eventTitle")
+        if outlook.schedule_event(email, startTime, endTime, subject):
+            return render_template('outlook_result.html',
+                result="Event successfully scheduled",
+                message="Event successfully scheduled on your Outlook calendar.",
+                startTime=startTime, endTime=endTime, eventTitle=subject, email=email)
+        else:
+            return render_template('outlook_result.html',
+                result="Event scheduling failure",
+                message="Failed to schedule event ! Check auth token.",
+                startTime=startTime, endTime=endTime, eventTitle=subject, email=email)
+            
+    sys.stdout.flush()
+    return render_template('outlook_schedule.html', message="Use this to schedule an event")
 

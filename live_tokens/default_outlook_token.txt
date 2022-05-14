@@ -1,0 +1,14 @@
+{
+ "token_type": "Bearer",
+ "scope": [
+  "https://graph.microsoft.com/Calendars.ReadWrite",
+  "https://graph.microsoft.com/User.Read",
+  "https://graph.microsoft.com/Mail.Send",
+  "https://graph.microsoft.com/Mail.ReadWrite"
+ ],
+ "expires_in": 3600,
+ "ext_expires_in": 3600,
+ "access_token": "EwBoA8l6BAAUkj1NuJYtTVha+Mogk+HEiPbQo04AAR/MrOV88RSs002HLBLIuav+M6pdBrZe5E7opzBfe83oc0gvmtLXHY49lEXzkjxohSoteKG8kQbySkFh2zdB6gvQaaYF0g8Iov0yLAoOaFlY/l/Ohp0u3OX0iN2pevsZZ531SW78nMPpJCh2rzztmSN3aIpFJVVStr+e1BL9Mql9BY2gC2YTQxI3/AWRVkuvyKB2AJifVtW0zzqGAE4Lu7SKA/easnNqaimS5K5vSoJWYei+jOwmUZffayomRxwDsF0J7ftn6xzMCKSZTzEJLhp49VegERAbnwGYZnRY1+p5Aizfx8yPcod/3js0V9ahO27k0u9fO2/27dHacEiIZEgDZgAACGhtl1pDXUSYOALWX85JQOwfM3S8teloyG5UcmegXd2J+DucykPtWeLatuwyKN8rwkehNn5kq9x9hAw2cC4orAvPU1Svl9VTvZQp+7SlRRikCu8bstO1FflJsaogJC7tX6lLvMR67ijOoZXZOhycIGsFqFkM1K+WxFRDgXnyAROzyBNICoZH+4VkWu08c9AnmNESlTrs6LXhvj/mO5rGQYaq7xBFSTG32QRWzOO/8rHWSHsgBKFrDTNGFqmENZpSn87zQhecBAb944p0RQ5T1cN3jwCDe+2m9Rix1oPAqtj5hxurg66TkzQiV8eWkIsyzHouiiPaJyDQ5ej34mTW3cw78vZgHN1If3hL15uL6tjnXPgnhvGhiwT3g/BplRTU8zzKpcHb3YvJtv+ye4QriSx/xN7pIyEIycLt9fUtgRYlxuKgw3//G7LLyxjMTWi7H5Ub4tjDUD7CAUCDvZSs6cCXEHa/cKKoiMHyG9LKG76gTVggQRVIAYtNzbTkNAbJ1vW0KhQHtvbS0Vzu95GCqJzrPEiZhKRIRuj4I+bkIgKaYCW/5vSM0/o+2kFG/kbmEwoK+OvgmVs59nrCli5gTZ0bw+2/xlEW95+IJVgql9/8RoJ3UaWCXjjdS4Pn41hhzuqVfICFH7t+V6rDC3iz7ZlUjNddNwzWjz/ottk7Ir6aQ5qr5oVbkraL4eAUGAprlWtKE9MP65c8/mf2i2mAbJSyFs4OiJn1WzxuPIOsJk3CW4/C5VZqgtb95WRTl2c5UxTbbgI=",
+ "refresh_token": "M.R3_BAY.-Ca*1WW06iCqgTqvZhs*4F3O0wZucU2xxEms2vTTJPn6esbnh4JLeNPv7klHPFLTnQmy4JVbVwpH2rQ*ke9jDtZdP!Q6XBfuBstiIOnWpEA7!Z1jfBlATbmNOqs822kK9MBTxfVK4Gz8M0QT9n4cr0eu5rMONhxpNCt4WVYoEgkicy0XGB1DuiXT1tyCYHo0KKUjVpi222RmmXoCm8BJ2STT*lnxCb2m86lRp9FYFLp7qzQ!FEBTcvj6S667gAgxwUBZyd4diLKvuADeLK2jikh2rfGuY7AV74GBbf6cRba!UGL*59ijePWyA2r*dVtQ9vBWHXL1VNlrkrjwWxBXIjCO*xfz6IgxyKfYhfbB3suMnQB7F4h80pcNWxaTJd1pmlQ$$",
+ "expires_at": 1652554785.20164
+}
