@@ -97,6 +97,10 @@ def profile():
 def outlook_main():
     return render_template('outlook.html', message="Use this to schedule an event")
 
+@app.route('/outlook/get_auth')
+def outlook_get_auth():
+    return render_template('outlook.html', message="Use this to schedule an event")
+
 # This is the redirect_uri that Microsoft Graph would call.
 @app.route('/outlook/redirect')
 def outlook_auth():

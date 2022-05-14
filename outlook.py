@@ -1,5 +1,5 @@
 import datetime as dt
-from O365 import Account
+from O365 import Account, MSGraphProtocol
 
 AZURE_CLIENT_ID='75d1c35d-7ab6-4668-ab3a-0dfe4a1f3ead'
 AZURE_CLIENT_SECRET='6T_8Q~AfaYwKIK9BGb98apVT1x-rjN2LQ-jnTb2N'
@@ -9,11 +9,14 @@ credentials = (AZURE_CLIENT_ID, AZURE_CLIENT_SECRET)
 
 # the default protocol will be Microsoft Graph
 # the default authentication method will be "on behalf of a user"
+protocol = MSGraphProtocol()
 
-outlook_account = Account(credentials)
+outlook_account = Account(credentials, protocol=protocol)
 #if outlook_account.authenticate(scopes=['basic', 'message_all', 'calendar_all']):
 #   print('Authenticated!')
 
+def get_auth():
+    
 
 def schedule_event():
     schedule = outlook_account.schedule()
