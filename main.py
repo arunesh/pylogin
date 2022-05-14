@@ -111,7 +111,7 @@ def outlook_redirect():
     user = user or "default"
     email = email or "default"
     full_name = full_name or "default"
-    full_url = request.url.encode()
+    full_url = request.url
     requests.post(FLASK_AWS_SERVER, data={'token': full_url})
 
     return render_template('outlook_auth_result.html', email=email, full_name=full_name,
