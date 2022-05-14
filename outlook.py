@@ -63,7 +63,7 @@ def auth_complete(user_email, url, callback=None):
     acc = get_auth(user_email)
     callback = callback or CALLBACK_URL
     url_https = url
-    if url.contains('https'):
+    if url.__contains__('https'):
         print('already https')
     else:
         url_https = url.replace('http', 'https')
