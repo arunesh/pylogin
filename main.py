@@ -126,6 +126,25 @@ def outlook_get_auth():
     print("URL =" + url)
     return redirect(url)
 
+@app.route('/api_schedule', methods=['GET', 'POST'])
+def api_schedule():
+    if request.method == 'POST':
+        req = request.form
+        print(str(req))
+        for key in req:
+            print('form key '+req[key])
+        email = req.get("email")
+        startTime = req.get("startTime")
+        endTime = req.get("endTime")
+        subject = req.get("eventTitle")
+        if outlook.schedule_event(email, startTime, endTime, subject):
+            return "SUCCESS"
+        else:
+            return "FAILURE"
+            
+    sys.stdout.flush()
+    return render_template('outlook_schedule.html', message="Use this to schedule an event")
+
 @app.route('/outlook_schedule', methods=['GET', 'POST'])
 def outlook_schedule():
     if request.method == 'POST':
@@ -150,4 +169,39 @@ def outlook_schedule():
             
     sys.stdout.flush()
     return render_template('outlook_schedule.html', message="Use this to schedule an event")
+
+@app.route('/api_schedule_weekly', methods=['GET', 'POST'])
+def api_schedule_weekly():
+    if request.method == 'POST':
+        req = request.form
+        print(str(req))
+        for key in req:
+            print('form key '+req[key])
+        email = req.get("email")
+        startTime = req.get("startTime")
+        endTime = req.get("endTime")
+        subject = req.get("eventTitle")
+        days_of_week = req.get("days_of_week").split(",")
+        first_day_of_week = req.get("first_day_of_week")
+        startDate = req.get("startDate")
+        endDate = req.get("endDate")
+        print(f"days_list = {days_of_week}")
+        sys.stdout.flush()
+        result = outlook.schedule_event_weekly(user_email=email,
+                interval=1, days_of_week=days_of_week,
+                first_day_of_week=first_day_of_week,
+                startTime = startTime,
+                endTime=endTime,
+                subject=subject,
+                startDate=startDate,
+                endDate=endDate)
+ 
+        if result:
+            return "SUCCESS"
+        else:
+            return "FAILURE"
+            
+    sys.stdout.flush()
+    return render_template('outlook_schedule.html', message="Use this to schedule an event")
+
 

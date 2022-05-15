@@ -3,6 +3,7 @@ from O365 import Account, MSGraphProtocol, FileSystemTokenBackend
 
 import dateutil
 
+import requests, json
 AZURE_CLIENT_ID='75d1c35d-7ab6-4668-ab3a-0dfe4a1f3ead'
 AZURE_CLIENT_SECRET='6T_8Q~AfaYwKIK9BGb98apVT1x-rjN2LQ-jnTb2N'
 CALLBACK_URL='http://localhost:5000/outlook_redirect'
@@ -106,6 +107,94 @@ def schedule_event(user_email, startTime, endTime, subject):
     except Exception as e: 
         print(str(e))
         return False
+
+def schedule_event_single(user_email, startTime, endTime, subject):
+
+    try:
+        subject = subject or "Coach AI Work !"
+        acc = get_auth(user_email)
+        schedule = acc.schedule()
+
+        calendar = schedule.get_default_calendar()
+        new_event = calendar.new_event()  # creates a new unsaved event 
+        new_event.subject = subject
+        new_event.location = 'California'
+
+        # naive datetimes will automatically be converted to timezone aware datetime
+        #  objects using the local timezone detected or the protocol provided timezone
+
+        print(f'Using start time {startTime} and end time {endTime}')
+        #new_event.start = dt.datetime.fromisoformat(startTime)
+        new_event.start = dateutil.parser.isoparse(startTime)
+        new_event.end = dateutil.parser.isoparse(endTime)
+
+        # new_event.start = dt.datetime(year=2022, month=5, day=14, hour=10, minute=0) 
+        # so new_event.start becomes: datetime.datetime(2018, 9, 5, 19, 45, tzinfo=<DstTzInfo 'Europe/Paris' CEST+2:00:00 DST>)
+
+        #new_event.recurrence.set_daily(1, end=dt.datetime(2022, month=5, day=17))
+        #new_event.recurrence.set_daily(1, end=dt.datetime.fromisoformat(endTime))
+        new_event.remind_before_minutes = 45
+
+        new_event.save()
+        return True
+    except Exception as e: 
+        print(str(e))
+        return False
+
+""" Set to repeat every week on specified days for every x no. of days
+     
+     :param int interval: no. of days to repeat at
+     :param str first_day_of_week: starting day for a week
+     :param list[str] days_of_week: list of days of the week to repeat
+     :keyword date start: Start date of repetition (kwargs)
+     :keyword date end: End date of repetition (kwargs)
+     :keyword int occurrences: no of occurrences (kwargs)
+"""
+def schedule_event_weekly(user_email, interval, days_of_week, first_day_of_week,
+                    startTime, endTime, subject, startDate, endDate):
+
+    try:
+        subject = subject or "Coach AI Work !"
+        acc = get_auth(user_email)
+        schedule = acc.schedule()
+
+        calendar = schedule.get_default_calendar()
+        new_event = calendar.new_event()  # creates a new unsaved event 
+        new_event.subject = subject
+        new_event.location = 'California'
+
+        # naive datetimes will automatically be converted to timezone aware datetime
+        #  objects using the local timezone detected or the protocol provided timezone
+
+        print(f'Using start time {startTime} and end time {endTime}')
+        #new_event.start = dt.datetime.fromisoformat(startTime)
+        new_event.start = dateutil.parser.isoparse(startTime)
+        new_event.end = dateutil.parser.isoparse(endTime)
+
+        # new_event.start = dt.datetime(year=2022, month=5, day=14, hour=10, minute=0) 
+        # so new_event.start becomes: datetime.datetime(2018, 9, 5, 19, 45, tzinfo=<DstTzInfo 'Europe/Paris' CEST+2:00:00 DST>)
+
+        #new_event.recurrence.set_daily(1, end=dt.datetime(2022, month=5, day=17))
+        #new_event.recurrence.set_daily(1, end=dt.datetime.fromisoformat(endTime))
+        new_event.recurrence.set_weekly(interval, days_of_week=days_of_week, first_day_of_week=first_day_of_week,
+                        start=dt.datetime.fromisoformat(startDate), end=dt.datetime.fromisoformat(endDate))
+        new_event.remind_before_minutes = 45
+
+        new_event.save()
+        return True
+    except Exception as e: 
+        print(str(e))
+        return False
+
+def schedule_outlook_event(user_email, startTime, endTime, eventTitle):
+    payload = { "email": user_email,
+                 "startTime" : startTime,
+                 "endTime" : endTime,
+                 "eventTitle": eventTitle
+                 }
+    print(json.dumps(payload))
+    requests.post("https://coachai-dev.herokuapp.com/api_schedule", data=payload)
+
 
 if __name__ == "__main__":
     acc = get_auth("arun@coach.ai")
